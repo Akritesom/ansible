@@ -1,0 +1,13 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: update repository index
+    zypper:
+      name: update_cache
+
+  - name: install apache2 package
+    zypper:
+      name: apache2

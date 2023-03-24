@@ -1,0 +1,15 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: uninstall apache2 package
+    zypper:
+      name: apache2
+      state: absent
+
+  - name: add Development files for the Apache Portable Runtime (APR) Utility Library
+    zypper:
+      name: apr-util-devel
+      state: absent
