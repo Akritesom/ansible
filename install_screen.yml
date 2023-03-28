@@ -1,0 +1,11 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install screen package
+    zypper:
+      name: screen
+      state: latest
+    when: ansible_distribution == "SLES"

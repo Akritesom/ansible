@@ -8,8 +8,22 @@
     zypper:
       name: apache2
       state: latest
+    when: ansible_distribution == "SLES"
 
   - name: add Development files for the Apache Portable Runtime (APR) Utility Library
     zypper:
       name: apr-util-devel
       state: latest
+    when: ansible_distribution == "SLES"
+
+  - name: install httpd package
+    yum:
+      name: httpd
+      state: latest
+    when: ansible_distribution == "OracleLinux"
+
+  - name: add PHP scripting language for creating dynamic web sites
+    yum:
+      name: php
+      state: latest
+    when: ansible_distribution == "OracleLinux"
