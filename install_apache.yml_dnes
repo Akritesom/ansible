@@ -1,0 +1,21 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install apache2 package and Development files for the Apache Portable Runtime (APR) Utility Library
+    zypper:
+      name:
+        - apache2
+        - apr-util-devel
+      state: latest
+    when: ansible_distribution == "SLES"
+
+  - name: install httpd package and PHP scripting language for creating dynamic web sites
+    yum:
+      name:
+        - httpd
+        - php
+#     state: latest
+    when: ansible_distribution == "OracleLinux"

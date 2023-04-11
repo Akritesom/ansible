@@ -1,0 +1,46 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (OracleLinux)
+    tags: always
+    yum:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "OracleLinux"
+
+# - name: install updates (SLES)
+#   zypper:
+#     upgrade: dist
+#     update_cache: yes
+#   when: ansible_distribution == "SLES" 
+
+- hosts: web_servers
+  become: true
+  tasks:
+
+  - name: install apache2 package
+    tags: apache,apache2,sles
+    zypper:
+      name: apache2
+      state: latest
+    when: ansible_distribution == "SLES"
+
+  - name: add Development files for the Apache Portable Runtime (APR) Utility Library
+    zypper:
+      name: apr-util-devel
+      state: latest
+    when: ansible_distribution == "SLES"
+
+- hosts: db_servers
+  become: true
+  tasks:
+
+  - name: install mariadb pakage (OracleLinux)
+    tags: oraclelinux,db,mariadb
+    yum:
+      name: mariadb
+      state: latest
+    when: ansible_distribution == "OracleLinux"  

@@ -17,13 +17,13 @@
     when: ansible_distribution == "SLES"
 
   - name: install httpd package
-    dnf:
+    yum:
       name: httpd
       state: latest
     when: ansible_distribution == "OracleLinux"
 
   - name: add PHP scripting language for creating dynamic web sites
-    dnf:
+    yum:
       name: php
       state: latest
     when: ansible_distribution == "OracleLinux"

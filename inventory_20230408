@@ -1,0 +1,6 @@
+# tmv3293 oraclelinux
+10.1.200.27 apache_package=httpd second_package=php
+# tmv3296 SLES
+10.1.200.29 apache_package=apache2 second_package=apr-util-devel
+# tmv3297 SLES
+10.1.190.67 apache_package=apache2 second_package=apr-util-devel
