@@ -43,4 +43,4 @@
     yum:
       name: mariadb
       state: latest
-    when: ansible_distribution == "OracleLinux"  
+    when: ansible_distribution == "OracleLinux"
