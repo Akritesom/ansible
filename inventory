@@ -4,3 +4,6 @@
 [web_servers]
 10.1.200.29 # tmv3296 SLES
 10.1.190.67 # tmv3297 SLES
+
+[workstations]
+10.1.200.27 # tmv3293 oraclelinux

@@ -1,0 +1,37 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (OracleLinux)
+    tags: always
+    yum:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "OracleLinux"
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: create kufor user
+    tags: always
+    user:
+      name: kufor
+      groups: root
+
+  - name: add ssh key for kufor
+    tags: always
+    authorized_key:
+      user: kufor
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFJWcXLsW5yVSYKpOUiskbehQcvY5f0uGrV/667UKm7L marek.topolcansky@telekom.com"
+
+  - name: add sudoers file for kufor
+    tags: always
+    copy:
+      src: sudoer_kufor
+      dest: /etc/sudoers.d/kufor
+      owner: root
+      group: root
+      mode: 0440

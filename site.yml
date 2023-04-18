@@ -4,18 +4,35 @@
   become: true
   pre_tasks:
 
-  - name: install updates (OracleLinux)
+  - name: update repo cache (OracleLinux)
     tags: always
     yum:
-      update_only: yes
       update_cache: yes
+    changed_when: false
     when: ansible_distribution == "OracleLinux"
 
-# - name: install updates (SLES)
-#   zypper:
-#     upgrade: dist
-#     update_cache: yes
-#   when: ansible_distribution == "SLES" 
+- hosts: all
+  become: true
+  tasks:
+
+  - name: add ssh key for kufor
+    tags: always
+    authorized_key:
+      user: kufor
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFJWcXLsW5yVSYKpOUiskbehQcvY5f0uGrV/667UKm7L marek.topolcansky@telekom.com"
+
+- hosts: workstations
+  become: true
+  tasks:
+
+  - name: install terraform
+    unarchive:
+      src: /tmp/mtopolca/terraform_0.12.28_linux_amd64.zip
+      dest: /usr/local/bin
+      remote_src: yes
+      mode: 0755
+      owner: root
+      group: root
 
 - hosts: web_servers
   become: true
@@ -33,6 +50,30 @@
       name: apr-util-devel
       state: latest
     when: ansible_distribution == "SLES"
+
+  - name: start apache (SLES)
+    tags: apache,apache2,sles
+    service:
+      name: apache2
+      state: started
+      enabled: yes
+    when: ansible_distribution == "SLES"
+
+  - name: change e-mail address for admin
+    tags: apache,apache2,sles
+    lineinfile:
+      path: /etc/apache2/vhosts.d/vhost.template
+      regexp: '^ServerAdmin'
+      line: ServerAdmin somebody@somewhere.net
+    when: ansible_distribution == "SLES"
+    register: apache2
+
+  - name: restart apache2 (SLES)
+    tags: apache,apache2,sles
+    service:
+      name: apache2
+      state: restarted
+    when: apache2.changed
 
   - name: copy default html file for site
     tags: apache,apache2,httpd
