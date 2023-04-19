@@ -1,0 +1,6 @@
+- name: install mariadb pakage (OracleLinux)
+  tags: oraclelinux,db,mariadb
+  yum:
+    name: mariadb
+    state: latest
+  when: ansible_distribution == "OracleLinux"

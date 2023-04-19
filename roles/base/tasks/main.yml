@@ -1,0 +1,4 @@
+- name: add ssh key for kufor
+  authorized_key:
+    user: kufor
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFJWcXLsW5yVSYKpOUiskbehQcvY5f0uGrV/667UKm7L marek.topolcansky@telekom.com"
