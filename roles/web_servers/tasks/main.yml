@@ -1,39 +1,26 @@
 - name: install apache2 package
   tags: apache,apache2,sles
-  zypper:
-    name: apache2
+  package:
+    name:
+      - "{{ apache_package_name }}"
+      - "{{ apr_util_package_name }}"
     state: latest
-  when: ansible_distribution == "SLES"
 
-- name: add Development files for the Apache Portable Runtime (APR) Utility Library
-  zypper:
-    name: apr-util-devel
-    state: latest
-  when: ansible_distribution == "SLES"
-
-- name: start apache (SLES)
+- name: start and enable apache service (SLES)
   tags: apache,apache2,sles
   service:
-    name: apache2
+    name: "{{ apache_service }}"
     state: started
     enabled: yes
-  when: ansible_distribution == "SLES"
 
 - name: change e-mail address for admin
   tags: apache,apache2,sles
   lineinfile:
     path: /etc/apache2/vhosts.d/vhost.template
     regexp: '^ServerAdmin'
-    line: ServerAdmin somebody@somewhere.net
+    line: ServerAdmin somebody@somewhere.com
   when: ansible_distribution == "SLES"
-  register: apache2
-
-- name: restart apache2 (SLES)
-  tags: apache,apache2,sles
-  service:
-    name: apache2
-    state: restarted
-  when: apache2.changed
+  notify: restart_apache
 
 - name: copy default html file for site
   tags: apache,apache2,httpd
