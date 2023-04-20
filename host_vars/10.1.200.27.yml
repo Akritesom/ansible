@@ -1,0 +1,2 @@
+ssh_users: "mtopolca kufor"
+ssh_template_file: sshd_config_oraclelinux.j2

@@ -1,3 +1,5 @@
 apache_package_name: apache2
 apache_service: apache2
 apr_util_package_name: apr-util-devel
+ssh_users: "mtopolca kufor"
+ssh_template_file: sshd_config_sles.j2
